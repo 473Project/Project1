@@ -13,8 +13,8 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 	tempThread.priority = priority;
 	tempThread.tid = tid;
 
-	//add the thread to the ready buf if it arrived at 0 (instantly valid)
-	if (tempThread.arriving_time == 0)
+	//add the thread to the ready buf if it has arrived
+	if (tempThread.arriving_time == timer)
 		readyBuf.push_back(tempThread);
 	else
 		//otherwise add it to the mainBuffer until it is valid
@@ -115,6 +115,7 @@ bool MyScheduler::Dispatch()
 		cout << "Invalid policy!";
 		throw 0;
 	}
+
 	return true;
 }
 
