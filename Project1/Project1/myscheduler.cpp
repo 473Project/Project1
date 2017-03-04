@@ -154,7 +154,8 @@ bool MyScheduler::Dispatch()
 				}
 			}
 
-			// check if free CPU or higher priority thread in readyBuf
+			// check if there is a free CPU or if the highest priority thread in readyBuf has a higher priority than
+			// the lowest priority thread in CPUs
 			if (hasFreeCPU || (readyBuf.front().priority < lowestPriority)) {
 
 				if (CPUs[lp_index] != NULL) {	// swap threads if CPU block not empty
