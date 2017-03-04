@@ -13,9 +13,11 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 	tempThread.priority = priority;
 	tempThread.tid = tid;
 
+	//add the thread to the ready buf if it arrived at 0 (instantly valid)
 	if (tempThread.arriving_time == 0)
 		readyBuf.push_back(tempThread);
 	else
+		//otherwise add it to the mainBuffer until it is valid
 		mainThreadBuf.push_back(tempThread);
 
 }
@@ -63,9 +65,44 @@ bool MyScheduler::Dispatch()
 	case FCFS:		//First Come First Serve, Tyler
 		//Threads should be taken off ready queue in order since they should already be in ordre by arrival time
 
+		//loop through the cpus
+		for (int i = 0; i < num_cpu; i++)
+		{
+			//Do nothing if readyBuf is empty as there are no more valid threads to schedule
+			//If readyBuf is not empty attempt to assign a thread to an open CPU
+			if (!readyBuf.empty()){ 
+				if (CPUs[i] == NULL){
+					//if current cpu is not working on a thread and there is thread(s) in ready buffer assign it to the cpu
+					CPUs[i] = &(readyBuf.front());
+					//remove that thread from the ready buff
+					readyBuf.erase(readyBuf.begin());
+				}
+
+			}
+
+		}
 
 		break;
 	case STRFwoP:	//Shortest Time Remaining First, without preemption, Tyler
+
+		//Readybuf needs sortred by shortest time remaining
+		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
+
+		//Similarly to FCFS loop through the CPUs
+		for (int i = 0; i < num_cpu; i++){
+
+			//do nothing if readyBuf is empty 
+			//if not empty check if thread can be assigned 
+			if (!readyBuf.empty()){
+				//CPU is free
+				if (CPUs[i] == NULL){
+					//assign that cpu to the first thread in the readyBUf (shortest time remaining)
+					CPUs[i] = &(readyBuf.front());
+					//remove that thread from the readyBuf
+					readyBuf.erase(readyBuf.begin());
+				}
+			}
+		}
 
 		break;
 	case STRFwP:	//Shortest Time Remaining First, with preemption, Kyle
