@@ -24,7 +24,7 @@ struct sortByArrival {
 };
 
 
-struct sortByTimeReamining {
+struct sortByTimeRemaining {
 	inline bool operator() (const ThreadDescriptorBlock& thread1, const ThreadDescriptorBlock& thread2){
 		return (thread1.remaining_time < thread2.remaining_time);
 	}
