@@ -19,6 +19,8 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 	else
 		//otherwise add it to the mainBuffer until it is valid
 		mainThreadBuf.push_back(tempThread);
+		//sort mainBuf by arrival time each time you add a new thread so they are in order by arrival time
+		sort(mainThreadBuf.begin(), mainThreadBuf.end(), sortByArrival());
 
 }
 
@@ -26,9 +28,6 @@ bool MyScheduler::Dispatch()
 {
 	//Todo: Check and remove finished threads
 	//Todo: Check if all the threads are finished; if so, return false
-
-	//sort mainBuf by arrival time
-	sort(mainThreadBuf.begin(), mainThreadBuf.end(), sortByArrival());
 
 	//first check if new threads are ready
 	//if a thread is ready add it to the ready queue and remove it from the main buffer
