@@ -133,20 +133,20 @@ bool MyScheduler::Dispatch()
 
 			// find lowest priority
 			for (int i = 1; (i < num_cpu) && !hasFreeCPU; i++) {
-				if (CPUs[num_cpu] == NULL) {		// if CPU block is empty, the empty block is the lowest priority
+				if (CPUs[i] == NULL) {		// if CPU block is empty, the empty block is the lowest priority
 					hasFreeCPU = true;
-					lp_index = num_cpu;
+					lp_index = i;
 				}
-				else if (CPUs[num_cpu]->priority >= lowestPriority) {	// if CPU block has a thread, check if lower priority
-					lowestPriority = CPUs[num_cpu]->priority;
-					arrivalTime = CPUs[num_cpu]->arriving_time;
-					lp_index = num_cpu;
+				else if (CPUs[i]->priority > lowestPriority) {	// if CPU block has a thread, check if lower priority
+					lowestPriority = CPUs[i]->priority;
+					arrivalTime = CPUs[i]->arriving_time;
+					lp_index = i;
 				}
-				else if (CPUs[num_cpu]->priority == lowestPriority) {	// else check if same priority 
-					if (CPUs[num_cpu]->arriving_time > arrivalTime) {	// and later arrival time has lower priority
-						lowestPriority = CPUs[num_cpu]->priority;
-						arrivalTime = CPUs[num_cpu]->arriving_time;
-						lp_index = num_cpu;
+				else if (CPUs[i]->priority == lowestPriority) {	// else check if same priority 
+					if (CPUs[i]->arriving_time > arrivalTime) {	// and later arrival time has lower priority
+						lowestPriority = CPUs[i]->priority;
+						arrivalTime = CPUs[i]->arriving_time;
+						lp_index = i;
 					}
 				}
 				else {
