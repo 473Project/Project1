@@ -67,6 +67,9 @@ bool MyScheduler::Dispatch()
 		//loop through the cpus
 		for (unsigned int i = 0; i < num_cpu; i++)
 		{
+			if (CPUs[i] != NULL && CPUs[i]->remaining_time <= 0){
+				CPUs[i] = NULL;
+			}
 			//Do nothing if readyBuf is empty as there are no more valid threads to schedule
 			//If readyBuf is not empty attempt to assign a thread to an open CPU
 			if (!readyBuf.empty()){
@@ -86,10 +89,11 @@ bool MyScheduler::Dispatch()
 
 		//Readybuf needs to be sorted by shortest time remaining
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
-
 		//Similarly to FCFS loop through the CPUs
 		for (unsigned int i = 0; i < num_cpu; i++){
-
+			if (CPUs[i] != NULL && CPUs[i]->remaining_time <= 0){
+				CPUs[i] = NULL;
+			}
 			//do nothing if readyBuf is empty 
 			//if not empty check if thread can be assigned 
 			if (!readyBuf.empty()){
@@ -111,6 +115,9 @@ bool MyScheduler::Dispatch()
 		for (unsigned int i = 0; i < num_cpu; i++){
 			//do nothing if readyBuf is empty 
 			//if not empty check if thread can be assigned 
+			if (CPUs[i] != NULL && CPUs[i]->remaining_time <= 0){
+				CPUs[i] = NULL;
+			}
 			if (!readyBuf.empty()){
 				//CPU is free
 				if (CPUs[i] == NULL){
@@ -121,10 +128,10 @@ bool MyScheduler::Dispatch()
 				}
 				else { //check if remaining time of the front of the ready queue is less than the current item in the cpu
 					if (CPUs[i]->remaining_time > readyBuf.front().remaining_time){
-						readyBuf.push_back(*CPUs[i]);
+						readyBuf.push_back(*CPUs[i]); 
 						CPUs[i] = &(readyBuf.front());
 						readyBuf.erase(readyBuf.begin());
-						//sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
+						sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
 					}
 				}
 			}
@@ -214,12 +221,12 @@ bool MyScheduler::Dispatch()
 		}
 
 		// age/raise priority of readyBuf threads
-		for (int i = 0; i < readyBuf.size; i++) {
+		for (unsigned int i = 0; i < readyBuf.size(); i++) {
 			readyBuf[i].priority = readyBuf[i].priority - 1;
 		}
 
 		// age/raise priority CPU threads
-		for (int i = 0; i < num_cpu; i++) {
+		for (unsigned int i = 0; i < num_cpu; i++) {
 			if (CPUs[i] != NULL) {
 				CPUs[i]->priority = CPUs[i]->priority - 1;
 			}

@@ -20,7 +20,6 @@ struct sortByArrival {
 	inline bool operator() (const ThreadDescriptorBlock& thread1, const ThreadDescriptorBlock& thread2){
 		return (thread1.arriving_time < thread2.arriving_time);
 	}
-
 };
 
 
@@ -28,14 +27,12 @@ struct sortByTimeRemaining {
 	inline bool operator() (const ThreadDescriptorBlock& thread1, const ThreadDescriptorBlock& thread2){
 		return (thread1.remaining_time < thread2.remaining_time);
 	}
-
 };
 
 struct sortByPriority {
 	inline bool operator() (const ThreadDescriptorBlock& thread1, const ThreadDescriptorBlock& thread2){
 		return (thread1.priority < thread2.priority);
 	}
-
 };
 class MyScheduler : public Scheduler {
 public:
