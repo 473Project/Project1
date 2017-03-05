@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
 
 	
-	cout << "FCFS Policy, 2 CPUs\n";
+	/*cout << "FCFS Policy, 2 CPUs\n";
 	MyScheduler ms1 = MyScheduler(Policy::FCFS, 2);
 	ms1.CreateThread(0, 12, 0, 0);
 	ms1.CreateThread(5, 2, 2, 1);
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	ms1.CreateThread(5, 2, 3, 5);
 	ms1.CreateThread(1, 4, 3, 6);
 
-	ms1.Go();
+	ms1.Go();*/
 	
 
 	/* My results, assuming my project works...
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 	Thread ID : 3 Finishing Time : 17 CPU No. : 0
 	*/
 
-	cout << "STRFwoP Policy, 3 CPUs\n";
+	/*cout << "STRFwoP Policy, 3 CPUs\n";
 	MyScheduler ms2 = MyScheduler(Policy::STRFwoP, 3);
 	ms2.CreateThread(0, 12, 0, 0);
 	ms2.CreateThread(5, 5, 2, 1);
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 	ms2.CreateThread(5, 2, 3, 5);
 	ms2.CreateThread(1, 4, 3, 6);
 
-	ms2.Go();
+	ms2.Go();*/
 
 	/*
 	Thread ID : 4 Finishing Time : 5 CPU No. : 1
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 	*/
 
 	
-	cout << "STRFwP Policy, 3 CPUs\n";
+	/*cout << "STRFwP Policy, 3 CPUs\n";
 	MyScheduler ms3 = MyScheduler(Policy::STRFwP, 3);
 	ms3.CreateThread(0, 12, 0, 0);
 	ms3.CreateThread(5, 2, 2, 1);
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	ms3.CreateThread(5, 2, 3, 5);
 	ms3.CreateThread(1, 4, 3, 6);
 
-	ms3.Go();
+	ms3.Go();*/
 
 	/*
 	Thread ID : 6 Finishing Time : 5 CPU No. : 0

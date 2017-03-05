@@ -154,14 +154,20 @@ bool MyScheduler::Dispatch()
 			// find lowest priority thread in CPUs
 			// note: lowest priority is the priority with the highest value
 			// note: if same priority, thread with later arrival time (higher value) has lower priority
-			int lowestPriority = CPUs[0]->priority;
-			int arrivalTime = CPUs[0]->arriving_time;
+			int lowestPriority = INT_MAX;
+			int arrivalTime = INT_MAX;
 			int lp_index = 0;
-			bool hasFreeCPU = false;	// check if there is a free CPU
+
+			// check if there is a free CPU
+			bool hasFreeCPU = false;
 
 			// check if first CPU block is empty
-			if (CPUs[lp_index] == NULL){ 
+			if (CPUs[0] == NULL) {
 				hasFreeCPU = true;
+			}
+			else {
+				lowestPriority = CPUs[0]->priority;
+				arrivalTime = CPUs[0]->arriving_time;
 			}
 
 			// find lowest priority
@@ -193,14 +199,18 @@ bool MyScheduler::Dispatch()
 
 				if (CPUs[lp_index] != NULL) {	// swap threads if CPU block not empty
 
-					// get thread from CPU
+					/*// get thread from CPU
 					ThreadDescriptorBlock *temp = CPUs[lp_index];
 					// preempt thread on CPU
 					CPUs[lp_index] = &(readyBuf.front());
 					// remove thread from readyBuf
 					readyBuf.erase(readyBuf.begin());
 					// insert thread from CPU
-					readyBuf.push_back(*temp);
+					readyBuf.push_back(*temp);*/
+
+					readyBuf.push_back(*CPUs[lp_index]);
+					CPUs[lp_index] = &(readyBuf.front());
+					readyBuf.erase(readyBuf.begin());
 
 					// sort readyBuf again by priority because new thread inserted
 					sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
@@ -209,6 +219,8 @@ bool MyScheduler::Dispatch()
 
 					// insert thread into free CPU
 					CPUs[lp_index] = &(readyBuf.front());
+					// remove thread from readyBuf
+					readyBuf.erase(readyBuf.begin());
 				}
 
 			}
