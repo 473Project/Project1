@@ -212,17 +212,20 @@ bool MyScheduler::Dispatch()
 			}
 		}
 
-		// age/raise priority of readyBuf threads
-		for (unsigned int i = 0; i < readyBuf.size(); i++) {
-			readyBuf[i].priority = readyBuf[i].priority - 1;
-		}
-
-		// age/raise priority CPU threads
-		for (unsigned int i = 0; i < num_cpu; i++) {
-			if (CPUs[i] != NULL) {
-				CPUs[i]->priority = CPUs[i]->priority - 1;
+		/*// every 25 seconds
+		if (timer % 25 == 0 && timer != 0) {
+			// age/raise priority of readyBuf threads
+			for (unsigned int i = 0; i < readyBuf.size(); i++) {
+				readyBuf[i].priority = readyBuf[i].priority - 1;
 			}
-		}
+
+			// age/raise priority CPU threads
+			for (unsigned int i = 0; i < num_cpu; i++) {
+				if (CPUs[i] != NULL) {
+					CPUs[i]->priority = CPUs[i]->priority - 1;
+				}
+			}
+		}*/
 
 		break;
 	}
