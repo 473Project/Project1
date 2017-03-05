@@ -33,10 +33,10 @@ int main(int argc, char* argv[])
 	/*cout << "STRFwoP Policy, 3 CPUs\n";
 	MyScheduler ms2 = MyScheduler(Policy::STRFwoP, 3);
 	ms2.CreateThread(0, 12, 0, 0);
-	ms2.CreateThread(5, 5, 2, 1);
+	ms2.CreateThread(5, 2, 2, 1);
 	ms2.CreateThread(3, 7, 1, 2);
 	ms2.CreateThread(9, 1, 10, 3);
-	ms2.CreateThread(1, 3, 3, 4);
+	ms2.CreateThread(1, 4, 3, 4);
 	ms2.CreateThread(5, 2, 3, 5);
 	ms2.CreateThread(1, 4, 3, 6);
 
@@ -99,6 +99,7 @@ int main(int argc, char* argv[])
 	Thread ID : 0 Finishing Time : 16 CPU No. : 0
 	All the Threads have been executed !! .. Exiting Scheduler ..
 	*/
+
 	return 0;
 }
 
