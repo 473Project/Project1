@@ -13,8 +13,8 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 	tempThread.priority = priority;
 	tempThread.tid = tid;
 
-	//add the thread to the ready buf if it arrived at 0 (instantly valid)
-	if (tempThread.arriving_time == 0)
+	//add the thread to the ready buf if it has arrived
+	if (tempThread.arriving_time == timer)
 		readyBuf.push_back(tempThread);
 	else
 		//otherwise add it to the mainBuffer until it is valid
@@ -84,7 +84,7 @@ bool MyScheduler::Dispatch()
 		break;
 	case STRFwoP:	//Shortest Time Remaining First, without preemption, Tyler
 
-		//Readybuf needs sortred by shortest time remaining
+		//Readybuf needs to be sorted by shortest time remaining
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
 
 		//Similarly to FCFS loop through the CPUs
@@ -135,11 +135,90 @@ bool MyScheduler::Dispatch()
 		break;
 	case PBS:		//Priority Based Scheduling, with preemption, Connor
 
+		// sort readyBuf by priority
+		sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
+
+		//flag to continue preemption
+		bool preempt = true;
+
+		// while there still may be threads to preempt
+		while (!readyBuf.empty() && preempt) {
+
+			// find lowest priority thread in CPUs
+			// note: lowest priority is the priority with the highest value
+			// note: if same priority, thread with later arrival time (higher value) has lower priority
+			int lowestPriority = CPUs[0]->priority;
+			int arrivalTime = CPUs[0]->arriving_time;
+			int lp_index = 0;
+			bool hasFreeCPU = false;	// check if there is a free CPU
+
+			// check if first CPU block is empty
+			if (CPUs[lp_index] == NULL) {
+				hasFreeCPU = true;
+			}
+
+			// find lowest priority
+			for (int i = 1; (i < num_cpu) && !hasFreeCPU; i++) {
+				if (CPUs[i] == NULL) {		// if CPU block is empty, the empty block is the lowest priority
+					hasFreeCPU = true;
+					lp_index = i;
+				}
+				else if (CPUs[i]->priority > lowestPriority) {	// if CPU block has a thread, check if lower priority
+					lowestPriority = CPUs[i]->priority;
+					arrivalTime = CPUs[i]->arriving_time;
+					lp_index = i;
+				}
+				else if (CPUs[i]->priority == lowestPriority) {	// else check if same priority 
+					if (CPUs[i]->arriving_time > arrivalTime) {	// and later arrival time has lower priority
+						lowestPriority = CPUs[i]->priority;
+						arrivalTime = CPUs[i]->arriving_time;
+						lp_index = i;
+					}
+				}
+				else {
+					// lowest priority thread is unchanged
+				}
+			}
+
+			// check if there is a free CPU or if the highest priority thread in readyBuf has a higher priority than
+			// the lowest priority thread in CPUs
+			if (hasFreeCPU || (readyBuf.front().priority < lowestPriority)) {
+
+				if (CPUs[lp_index] != NULL) {	// swap threads if CPU block not empty
+					
+					// get thread from CPU
+					ThreadDescriptorBlock *temp = CPUs[lp_index];
+					// preempt thread on CPU
+					CPUs[lp_index] = &(readyBuf.front());
+					// remove thread from readyBuf
+					readyBuf.erase(readyBuf.begin());
+					// insert thread from CPU
+					readyBuf.push_back(*temp);
+					
+					// sort readyBuf again by priority because new thread inserted
+					sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
+				}
+				else {
+
+					// insert thread into free CPU
+					CPUs[lp_index] = &(readyBuf.front());
+				}
+				
+			}
+			else {
+				// highest priority threads have been scheduled
+				// no more preemption
+				preempt = false;
+			}
+
+		}
+
 		break;
 	default:
 		cout << "Invalid policy!";
 		throw 0;
 	}
+
 	return true;
 }
 
