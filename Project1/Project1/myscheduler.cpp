@@ -221,24 +221,3 @@ bool MyScheduler::Dispatch()
 
 	return true;
 }
-
-////////////////////////////////////////////////////////
-//Name: sortByArrival
-//
-//
-//
-//
-/*void sortByArrival(vector<ThreadDescriptorBlock> block){
-
-
-}
-
-void sortByPriority(vector<ThreadDescriptorBlock> block){
-
-
-}
-
-void sortByTimeRemaining(vector<ThreadDescriptorBlock> block){
-
-
-}*/
