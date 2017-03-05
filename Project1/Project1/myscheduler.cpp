@@ -106,6 +106,32 @@ bool MyScheduler::Dispatch()
 		break;
 	case STRFwP:	//Shortest Time Remaining First, with preemption, Kyle
 
+		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
+
+		for (int i = 0; i < num_cpu; i++){
+			//do nothing if readyBuf is empty 
+			//if not empty check if thread can be assigned 
+			if (!readyBuf.empty()){
+				//CPU is free
+				if (CPUs[i] == NULL){
+					//assign that cpu to the first thread in the readyBUf (shortest time remaining)
+					CPUs[i] = &(readyBuf.front());
+					//remove that thread from the readyBuf
+					readyBuf.erase(readyBuf.begin());
+				}
+				else { //check if remaining time of the front of the ready queue is less than the current item in the cpu
+					if (CPUs[i]->remaining_time > readyBuf.front().remaining_time){
+						readyBuf.push_back(*CPUs[i]);
+						CPUs[i] = &(readyBuf.front());
+						readyBuf.erase(readyBuf.begin());
+						sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
+					}
+				}
+			}
+		}
+
+
+
 		break;
 	case PBS:		//Priority Based Scheduling, with preemption, Connor
 
