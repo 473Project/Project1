@@ -213,6 +213,18 @@ bool MyScheduler::Dispatch()
 
 		}
 
+		// age/raise priority of readyBuf threads
+		for (int i = 0; i < readyBuf.size; i++) {
+			readyBuf[i].priority = readyBuf[i].priority - 1;
+		}
+
+		// age/raise priority CPU threads
+		for (int i = 0; i < num_cpu; i++) {
+			if (CPUs[i] != NULL) {
+				CPUs[i]->priority = CPUs[i]->priority - 1;
+			}
+		}
+
 		break;
 	}
 	default:
