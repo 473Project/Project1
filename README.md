@@ -13,7 +13,7 @@
 ###To Do:
 * Testing
 
-###Finished:
+###Working:
 * First Come First Serve
 * Shortest Time Remaining w/o Preemption
 * Shortest Time Remaining w/  Preemption
