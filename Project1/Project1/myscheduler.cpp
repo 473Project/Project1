@@ -124,7 +124,7 @@ bool MyScheduler::Dispatch()
 						readyBuf.push_back(*CPUs[i]);
 						CPUs[i] = &(readyBuf.front());
 						readyBuf.erase(readyBuf.begin());
-						sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
+						//sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
 					}
 				}
 			}

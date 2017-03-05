@@ -57,6 +57,7 @@ public:
 
 					if (CPUs[i]->remaining_time == 0) //Prints Thread ID, Finishing Time and Processor Number if a thread has finished executing
 					{
+
 						cout << "Thread ID : " << CPUs[i]->tid << " Finishing Time : " << timer << " CPU No. : " << i << '\n';
 						CPUs[i] = NULL;
 					}

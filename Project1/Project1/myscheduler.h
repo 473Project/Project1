@@ -48,7 +48,6 @@ public:
 	void sortByPriority(vector<ThreadDescriptorBlock> block);
 	void sortByTimeRemaining(vector<ThreadDescriptorBlock> block);*/
 
-
 private:
 	threadBuffer mainThreadBuf;
 	threadBuffer readyBuf;
