@@ -14,7 +14,7 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 	tempThread.tid = tid;
 
 	//add the thread to the ready buf if it has arrived
-	if (tempThread.arriving_time == timer)
+	if (tempThread.arriving_time == 0)
 		readyBuf.push_back(tempThread);
 	else
 		//otherwise add it to the mainBuffer until it is valid
