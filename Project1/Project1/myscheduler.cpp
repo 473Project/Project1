@@ -42,7 +42,7 @@ bool MyScheduler::Dispatch()
 	bool finished = true;
 
 	//first check the working cpus to see if they have work
-	for (int i = 0; i < num_cpu; i++)
+	for (unsigned int i = 0; i < num_cpu; i++)
 	{
 		if (CPUs[i] != NULL)
 			finished = false; //atleast 1 cpu still has work so we are not finished
@@ -65,11 +65,11 @@ bool MyScheduler::Dispatch()
 		//Threads should be taken off ready queue in order since they should already be in ordre by arrival time
 
 		//loop through the cpus
-		for (int i = 0; i < num_cpu; i++)
+		for (unsigned int i = 0; i < num_cpu; i++)
 		{
 			//Do nothing if readyBuf is empty as there are no more valid threads to schedule
 			//If readyBuf is not empty attempt to assign a thread to an open CPU
-			if (!readyBuf.empty()){ 
+			if (!readyBuf.empty()){
 				if (CPUs[i] == NULL){
 					//if current cpu is not working on a thread and there is thread(s) in ready buffer assign it to the cpu
 					CPUs[i] = &(readyBuf.front());
@@ -88,7 +88,7 @@ bool MyScheduler::Dispatch()
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
 
 		//Similarly to FCFS loop through the CPUs
-		for (int i = 0; i < num_cpu; i++){
+		for (unsigned int i = 0; i < num_cpu; i++){
 
 			//do nothing if readyBuf is empty 
 			//if not empty check if thread can be assigned 
@@ -108,7 +108,7 @@ bool MyScheduler::Dispatch()
 
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
 
-		for (int i = 0; i < num_cpu; i++){
+		for (unsigned int i = 0; i < num_cpu; i++){
 			//do nothing if readyBuf is empty 
 			//if not empty check if thread can be assigned 
 			if (!readyBuf.empty()){
@@ -133,7 +133,7 @@ bool MyScheduler::Dispatch()
 
 
 		break;
-	case PBS:		//Priority Based Scheduling, with preemption, Connor
+	case PBS: {	//Priority Based Scheduling, with preemption, Connor
 
 		// sort readyBuf by priority
 		sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
@@ -153,12 +153,12 @@ bool MyScheduler::Dispatch()
 			bool hasFreeCPU = false;	// check if there is a free CPU
 
 			// check if first CPU block is empty
-			if (CPUs[lp_index] == NULL) {
+			if (CPUs[lp_index] == NULL){ 
 				hasFreeCPU = true;
 			}
 
 			// find lowest priority
-			for (int i = 1; (i < num_cpu) && !hasFreeCPU; i++) {
+			for (unsigned int i = 1; (i < num_cpu) && !hasFreeCPU; i++) {
 				if (CPUs[i] == NULL) {		// if CPU block is empty, the empty block is the lowest priority
 					hasFreeCPU = true;
 					lp_index = i;
@@ -185,7 +185,7 @@ bool MyScheduler::Dispatch()
 			if (hasFreeCPU || (readyBuf.front().priority < lowestPriority)) {
 
 				if (CPUs[lp_index] != NULL) {	// swap threads if CPU block not empty
-					
+
 					// get thread from CPU
 					ThreadDescriptorBlock *temp = CPUs[lp_index];
 					// preempt thread on CPU
@@ -194,7 +194,7 @@ bool MyScheduler::Dispatch()
 					readyBuf.erase(readyBuf.begin());
 					// insert thread from CPU
 					readyBuf.push_back(*temp);
-					
+
 					// sort readyBuf again by priority because new thread inserted
 					sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
 				}
@@ -203,7 +203,7 @@ bool MyScheduler::Dispatch()
 					// insert thread into free CPU
 					CPUs[lp_index] = &(readyBuf.front());
 				}
-				
+
 			}
 			else {
 				// highest priority threads have been scheduled
@@ -214,6 +214,7 @@ bool MyScheduler::Dispatch()
 		}
 
 		break;
+	}
 	default:
 		cout << "Invalid policy!";
 		throw 0;
@@ -222,23 +223,3 @@ bool MyScheduler::Dispatch()
 	return true;
 }
 
-////////////////////////////////////////////////////////
-//Name: sortByArrival
-//
-//
-//
-//
-/*void sortByArrival(vector<ThreadDescriptorBlock> block){
-
-
-}
-
-void sortByPriority(vector<ThreadDescriptorBlock> block){
-
-
-}
-
-void sortByTimeRemaining(vector<ThreadDescriptorBlock> block){
-
-
-}*/
