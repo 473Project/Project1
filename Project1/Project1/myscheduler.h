@@ -35,7 +35,6 @@ struct sortByArrival {
 
 };
 
-
 struct sortByTimeRemaining {
 	inline bool operator() (const ThreadDescriptorBlock& thread1, const ThreadDescriptorBlock& thread2){
 		return (thread1.remaining_time < thread2.remaining_time);
@@ -49,18 +48,12 @@ struct sortByPriority {
 	}
 
 };
+
 class MyScheduler : public Scheduler {
 public:
 	MyScheduler(Policy p, unsigned int n) : Scheduler(p, n) {}
 	bool Dispatch() override; //Function to implement scheduling policy and to keep a check on processed threads
 	void CreateThread(int arriving_time, int remaining_time, int priority, int tid) override; //Function to create threads and insert them in student defined data structure
-
-	//Declare additional methods(s) below if needed.
-	/*void sortByArrival(vector<ThreadDescriptorBlock> block);
-	void sortByPriority(vector<ThreadDescriptorBlock> block);
-	void sortByTimeRemaining(vector<ThreadDescriptorBlock> block);*/
-
-
 private:
 	//The two queues we will use. 
 	threadBuffer mainThreadBuf;
