@@ -193,17 +193,8 @@ bool MyScheduler::Dispatch()
 
 				if (CPUs[lp_index] != NULL) {	// swap threads if CPU block not empty
 
-					/*// get thread from CPU
-					ThreadDescriptorBlock *temp = CPUs[lp_index];
-					// preempt thread on CPU
-					CPUs[lp_index] = &(readyBuf.front());
-					// remove thread from readyBuf
-					readyBuf.erase(readyBuf.begin());
-					// insert thread from CPU
-					readyBuf.push_back(*temp);*/
-
 					readyBuf.push_back(*CPUs[lp_index]);
-					CPUs[lp_index] = &(readyBuf.front());
+					CPUs[lp_index] = new ThreadDescriptorBlock(readyBuf.front());
 					readyBuf.erase(readyBuf.begin());
 
 					// sort readyBuf again by priority because new thread inserted
@@ -212,7 +203,7 @@ bool MyScheduler::Dispatch()
 				else {
 
 					// insert thread into free CPU
-					CPUs[lp_index] = &(readyBuf.front());
+					CPUs[lp_index] = new ThreadDescriptorBlock(readyBuf.front());
 					// remove thread from readyBuf
 					readyBuf.erase(readyBuf.begin());
 				}
