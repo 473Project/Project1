@@ -35,8 +35,6 @@ void MyScheduler::CreateThread(int arriving_time, int remaining_time, int priori
 
 bool MyScheduler::Dispatch()
 {
-	//Todo: Check and remove finished threads
-	//Todo: Check if all the threads are finished; if so, return false
 
 	//first check if new threads are ready
 	//if a thread is ready add it to the ready queue and remove it from the main buffer
@@ -70,12 +68,11 @@ bool MyScheduler::Dispatch()
 
 	switch (policy)
 	{
-	case FCFS:		//First Come First Serve, Tyler
+	case FCFS:
 		//Threads should be taken off ready queue in order since they should already be in ordre by arrival time
 
 		//loop through the cpus
-		for (unsigned int i = 0; i < num_cpu; i++)
-		{
+		for (unsigned int i = 0; i < num_cpu; i++){
 			//Do nothing if readyBuf is empty as there are no more valid threads to schedule
 			//If readyBuf is not empty attempt to assign a thread to an open CPU
 			if (!readyBuf.empty()){
@@ -86,17 +83,14 @@ bool MyScheduler::Dispatch()
 					//remove that thread from the ready buff
 					readyBuf.erase(readyBuf.begin());
 				}
-
 			}
-
 		}
-
 		break;
-	case STRFwoP:	//Shortest Time Remaining First, without preemption, Tyler
+	case STRFwoP:
 
 		//Readybuf needs to be sorted by shortest time remaining
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
-
+			
 		//Similarly to FCFS loop through the CPUs
 		for (unsigned int i = 0; i < num_cpu; i++){
 			//do nothing if readyBuf is empty 
@@ -111,9 +105,8 @@ bool MyScheduler::Dispatch()
 				}
 			}
 		}
-
 		break;
-	case STRFwP:	//Shortest Time Remaining First, with preemption, Kyle
+	case STRFwP:
 
 		//Readybuf needs to be sorted by shortest time remaining
 		sort(readyBuf.begin(), readyBuf.end(), sortByTimeRemaining());
@@ -139,11 +132,8 @@ bool MyScheduler::Dispatch()
 				}
 			}
 		}
-
-
-
 		break;
-	case PBS: {	//Priority Based Scheduling, with preemption, Connor
+	case PBS: {
 
 		// sort readyBuf by priority
 		sort(readyBuf.begin(), readyBuf.end(), sortByPriority());
