@@ -1,3 +1,12 @@
+/*
+CMPSC 473 Project 1
+GROUP MEMBERS:
+Tyler Abbatico
+Kyle Eckenstine 
+Connor Dougherty
+*/
+
+
 // myschedule.cpp
 /*Define all the functions in 'myschedule.h' here.*/
 #include "myscheduler.h"
